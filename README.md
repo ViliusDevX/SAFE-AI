@@ -9,7 +9,7 @@ Here you’ll find:
 
 - **Manifesto** — my statement of principles and goals.
 - **Research Hub** — curated resources on AI interpretability and alignment.
-- **Guides & Tools** — open source experiments and code to help reveal AI “black boxes.”
+- **Tools** — open source experiments and code to help reveal AI “black boxes.”
 - **Roadmap** — a living plan for projects, activism, and collaborations.
 
 The goal is to **push for a world where no powerful AI is deployed without independent review, transparency, and proven alignment**.  
