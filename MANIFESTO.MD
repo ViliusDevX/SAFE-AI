@@ -20,30 +20,30 @@ Now I’m left with one clear purpose: make AI safe, and make society ready for 
 
 ## What I Believe
 
-    Transparency is survival.
-    Black box AI at the frontier level is a lethal gamble. If we can’t see inside, we can’t predict or control it.
+Transparency is survival.
+Black box AI at the frontier level is a lethal gamble. If we can’t see inside, we can’t predict or control it.
 
-    Alignment comes before capability.
-    No new capability is worth pursuing if we can’t align it with human values first.
+Alignment comes before capability.
+No new capability is worth pursuing if we can’t align it with human values first.
 
-    Public oversight is non negotiable.
-    A handful of companies should not decide the future of everyone on Earth behind closed doors.
+Public oversight is non negotiable.
+A handful of companies should not decide the future of everyone on Earth behind closed doors.
 
-    Everyone deserves to know how AI makes decisions.
-    Not just the outputs, but the reasoning paths, the biases, and the limitations.
+Everyone deserves to know how AI makes decisions.
+Not just the outputs, but the reasoning paths, the biases, and the limitations.
 
-    Technical and social safety must evolve together.
-    We need interpretability research, yes — but also laws, culture, and education to match it.
+Technical and social safety must evolve together.
+We need interpretability research, yes — but also laws, culture, and education to match it.
 
 ## What I’m Trying to Achieve
 
-    Interpretable AI — tools, methods, and research that make advanced models explainable to both experts and the public.
+Interpretable AI — tools, methods, and research that make advanced models explainable to both experts and the public.
 
-    Open safety evaluations — independent audits before deployment, with results made public.
+Open safety evaluations — independent audits before deployment, with results made public.
 
-    Global safety standards — enforceable rules that put alignment ahead of profit.
+Global safety standards — enforceable rules that put alignment ahead of profit.
 
-    A culture of refusal — where developers, engineers, and researchers walk away from unsafe launches.
+A culture of refusal — where developers, engineers, and researchers walk away from unsafe launches.
 
 ## What I’m Doing
 
@@ -60,14 +60,15 @@ I’m building:
 ## How You Can Join
 
 This isn’t just my fight.
+
 Whether you’re a student, a PhD, a policymaker, or just someone who cares about the future, you can:
 
     Contribute to open source interpretability tools.
-
+    
     Translate and share these ideas globally.
-
+    
     Pressure companies and regulators to demand transparency.
-
+    
     Fund or support independent AI safety work.
 
 ## **My Promise**
@@ -78,4 +79,5 @@ I will not burn out or give up when it feels hopeless.
 Every day, I’ll learn more, connect more, and push harder, because this is not about personal success anymore.
 
 — Vilius Nikitinas
+
 17-year-old who refuses to look away
