@@ -1,0 +1,7 @@
+torch>=2.1
+transformers>=4.43
+tokenizers>=0.15
+numpy>=1.26
+matplotlib>=3.8
+plotly>=5.22
+kaleido
