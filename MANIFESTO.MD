@@ -16,7 +16,7 @@ I went through what I can only call an existential crisis: panic, nihilism, apat
 And yes, I know it might sound dramatic or cringe for a teenager to say that, but it was real. 
 It still is.
 
-Now I’m left with one clear purpose: make AI safe, and make society ready for it, no matter what it takes.
+Now I’m left with **only** one clear purpose: make AI safe, and make society ready for it, no matter what it takes.
 
 ## What I Believe
 
@@ -71,12 +71,15 @@ Whether you’re a student, a PhD, a policymaker, or just someone who cares abou
     
     Fund or support independent AI safety work.
 
+You can also connect with me on Discord (add friend: "wilius") or Linkedin (link in main ViliusDevX profile page)
+
 ## **My Promise**
 
 I’m young, but I’m not naive.
 I know this will take years and a lot of dedication.
 I will not burn out or give up when it feels hopeless.
 Every day, I’ll learn more, connect more, and push harder, because this is not about personal success anymore.
+Its all or nothing.
 
 — Vilius Nikitinas
 
