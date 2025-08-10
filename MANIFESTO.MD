@@ -16,7 +16,7 @@ I went through what I can only call an existential crisis: panic, nihilism, apat
 And yes, I know it might sound dramatic or cringe for a teenager to say that, but it was real. 
 It still is.
 
-Now I’m left with **only** one clear purpose: make AI safe, and make society ready for it, no matter what it takes.
+Now I’m left with ***only*** one clear purpose: make AI safe, and make society ready for it, no matter what it takes.
 
 ## What I Believe
 
@@ -51,7 +51,7 @@ I’m building:
 
     A public hub for AI transparency and interpretability research.
 
-    Guides and tools so anyone can explore and understand model internals.
+    Tools so anyone can explore and understand model internals.
 
     A living roadmap for AI safety activism, from code to policy.
 
