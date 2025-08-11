@@ -58,7 +58,7 @@ Guardian has three main components:
 
 **Clone & run:**
 ```bash
-git clone https://github.com/I-Will-Add-Link-Here-Once-
+git clone https://github.com/I-Will-Add-Link-Here-Once-Its-Done
 cd guardian
 docker compose up --build
 ```
