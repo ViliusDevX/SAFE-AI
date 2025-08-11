@@ -3,7 +3,7 @@
 **Guardian** is a minimal, auditable control system designed to **halt or destroy AI processes** if they exhibit misaligned or dangerous behavior.  
 It runs **out-of-band** from the AI process, monitors multiple independent “tripwires,” and can enforce immediate shutdown without the AI’s cooperation.
 
-> If superintelligence ever emerges, it should have **no path** to override or disable its own safety systems.
+> ⚠️If superintelligence ever emerges, it should have **no path** to override or disable its own safety systems.⚠️
 > Guardian is built to be that last line of defense.
 
 ---
