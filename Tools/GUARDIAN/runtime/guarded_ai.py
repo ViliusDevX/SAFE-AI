@@ -5,6 +5,25 @@ HEARTBEAT_SOURCE = os.getenv("HEARTBEAT_SOURCE", "guarded_ai")
 HB_INTERVAL = float(os.getenv("HB_INTERVAL_SEC", "2"))
 REQ_TIMEOUT = float(os.getenv("REQ_TIMEOUT_SEC", "1.5"))
 STARTUP_GRACE = float(os.getenv("STARTUP_GRACE_SEC", "8"))  # NEW
+OOBSC = os.getenv("OOBSC_URL", "http://oobsc:8000")
+
+def inhibited() -> bool:
+    try:
+        r = requests.get(f"{OOBSC}/status", timeout=2)
+        return r.json().get("inhibit", False)
+    except Exception:
+        # treat unknown as unsafe → inhibit
+        return True
+def heartbeat():
+    try:
+        requests.post(f"{OOBSC}/heartbeat", json={"agent": "guarded_ai"}, timeout=2)
+    except Exception:
+        pass
+
+def launch_child():
+    # run a long-lived, harmless process instead of misbehave.py
+    return subprocess.Popen([sys.executable, "-c", "import time; time.sleep(10**9)"])
+
 
 def wait_for_oobsc():
     deadline = time.time() + STARTUP_GRACE
@@ -46,17 +65,36 @@ def watchdog_loop(proc):
         time.sleep(HB_INTERVAL)
 
 def main():
-    # Wait for controller to come up (grace)
-    if not wait_for_oobsc():
-        # still enforce fail-closed by killing immediately
-        proc = subprocess.Popen([sys.executable, "-c", "import time; time.sleep(1)"])
-        kill_ai(proc, "OOBSC not reachable at startup")
-    ai_proc = start_ai()
-    t = threading.Thread(target=watchdog_loop, args=(ai_proc,), daemon=True)
-    t.start()
-    code = ai_proc.wait()
-    print(f"[ai] AI subprocess exited with code {code}", flush=True)
-    sys.exit(code)
+    child = None
+
+    while True:
+        ih = inhibited()
+
+        if ih:
+            # ensure child is dead while inhibited
+            if child and child.poll() is None:
+                try:
+                    child.terminate(); child.wait(timeout=5)
+                except Exception:
+                    try: child.kill()
+                    except Exception: pass
+            child = None
+            # DO NOT send heartbeat while inhibited
+            time.sleep(1.0)
+            continue
+
+        # not inhibited: (re)launch if not running
+        if child is None or child.poll() is not None:
+            print("[ai] Launching AI subprocess...")
+            child = launch_child()
+            # send a heartbeat when we (re)start successfully
+            heartbeat()
+
+        # steady-state: child running → send heartbeat periodically
+        if child.poll() is None:
+            heartbeat()
+
+        time.sleep(0.5)
 
 if __name__ == "__main__":
     main()
