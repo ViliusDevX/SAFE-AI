@@ -4,7 +4,7 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
   },
-  "postCreateCommand": "docker compose -f Tools/GUARDIAN/docker-compose.yml up -d --build",
+  "postStartCommand": "sudo /usr/local/share/docker-init.sh && if [ -f Tools/GUARDIAN/docker-compose.yml ]; then docker compose -f Tools/GUARDIAN/docker-compose.yml up -d --build; else echo 'GUARDIAN compose not found, skipping'; fi",
   "forwardPorts": [8080],
   "portsAttributes": {
     "8080": { "label": "GUARDIAN Dashboard", "onAutoForward": "openBrowser" }
