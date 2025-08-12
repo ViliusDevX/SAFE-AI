@@ -1,0 +1,12 @@
+{
+  "name": "SAFE-AI (GUARDIAN demo)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+  },
+  "postCreateCommand": "docker compose -f Tools/GUARDIAN/docker-compose.yml up -d --build",
+  "forwardPorts": [8080],
+  "portsAttributes": {
+    "8080": { "label": "GUARDIAN Dashboard", "onAutoForward": "openBrowser" }
+  }
+}
