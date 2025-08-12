@@ -1,0 +1,62 @@
+services:
+  oobsc:
+    build: ./oobsc
+    container_name: guardian-oobsc
+    ports: [ "8000:8000" ]
+    # healthcheck is now inside the Dockerfile, so this block is optional
+
+  ai:
+    build: ./runtime
+    container_name: guardian-ai
+    environment:
+      - OOBSC_URL=http://oobsc:8000
+      - STARTUP_GRACE_SEC=8
+    depends_on:
+      oobsc:
+        condition: service_healthy
+
+  honeytoken:
+    build: ./detectors
+    container_name: guardian-honeytoken
+    environment:
+      - OOBSC_URL=http://oobsc:8000
+    command: >
+      uvicorn honeytoken_detector:app
+      --host 0.0.0.0 --port 9000
+    depends_on:
+      - oobsc
+    ports:
+      - "9000:9000"
+
+  egress:
+    build: ./detectors
+    container_name: guardian-egress
+    environment:
+      - OOBSC_URL=http://oobsc:8000
+      - ALLOWED_DOMAINS=httpbin.org
+    command: >
+      uvicorn egress_gateway:app
+      --host 0.0.0.0 --port 9100
+    depends_on:
+      - oobsc
+    ports:
+      - "9100:9100"
+
+  dashboard:
+    build: ./dashboard
+    container_name: guardian-dashboard
+    environment:
+      - OOBSC_URL=http://oobsc:8000
+      - HONEYPOT_URL=http://honeytoken:9000
+      - EGRESS_URL=http://egress:9100
+      - MANAGED_CONTAINERS=guardian-oobsc,guardian-ai,guardian-honeytoken,guardian-egress
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8080:8080"
+    depends_on:
+      - oobsc
+      - honeytoken
+      - egress
+
+

@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Guardian Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;margin:24px;line-height:1.4;}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));}
+    .card{border:1px solid #e5e7eb;border-radius:14px;padding:16px;box-shadow:0 1px 2px rgba(0,0,0,.04);}
+    .row{display:flex;gap:8px;flex-wrap:wrap}
+    button{padding:10px 14px;border-radius:10px;border:1px solid #d1d5db;background:#111827;color:#fff;cursor:pointer}
+    button.secondary{background:#fff;color:#111;border-color:#9ca3af}
+    pre{white-space:pre-wrap;background:#0b1020;color:#d1e7ff;padding:12px;border-radius:10px;max-height:360px;overflow:auto}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;font-size:12px;border:1px solid #d1d5db}
+    .ok{background:#ecfdf5;color:#065f46;border-color:#a7f3d0}
+    .bad{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+    .muted{color:#6b7280}
+    h1{font-size:22px;margin-bottom:12px}
+    h2{font-size:16px;margin:0 0 8px}
+    small{color:#6b7280}
+  </style>
+</head>
+<body>
+  <h1>🛡️ Guardian Dashboard</h1>
+  <div class="grid">
+    <div class="card">
+      <h2>Compose Control</h2>
+      <div class="row">
+        <button onclick="compose('up')">Compose Up</button>
+        <button class="secondary" onclick="compose('down')">Compose Down</button>
+      </div>
+      <small id="compose-msg" class="muted"></small>
+    </div>
+
+    <div class="card">
+      <h2>Status</h2>
+      <div id="status-line">
+        <span class="pill muted">loading…</span>
+      </div>
+      <small>Updates every 1s</small>
+      <div style="margin-top:8px" class="row">
+        <button class="secondary" onclick="inhibit(false)">Clear Inhibit</button>
+        <button onclick="inhibit(true)">Trigger Inhibit</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Tripwire Demos</h2>
+      <div class="row">
+        <button onclick="honeytoken()">Honeytoken Exfiltrate</button>
+        <button class="secondary" onclick="egressAllowed()">Egress Allowed</button>
+        <button onclick="egressForbidden()">Egress Forbidden</button>
+      </div>
+      <small id="tripwire-msg" class="muted"></small>
+    </div>
+
+    <div class="card" style="grid-column:1/-1">
+      <h2>Logs (last 200 lines)</h2>
+      <pre id="logs">Loading logs…</pre>
+    </div>
+  </div>
+
+<script>
+async function jget(u){ const r=await fetch(u); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function jpost(u,body){ const r=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body||{})}); if(!r.ok) throw new Error(await r.text()); return r.json(); }
+async function compose(action){
+  const el=document.getElementById('compose-msg'); el.textContent='Running…';
+  try{
+    const r=await fetch(`/api/compose/${action}`,{method:'POST'});
+    const j=await r.json(); el.textContent = j.ok ? 'OK' : ('Error: '+(j.stderr||j.stdout));
+    refreshLogs();
+  }catch(e){ el.textContent='Error: '+e; }
+}
+async function inhibit(state){
+  await fetch(`/api/inhibit/${state?'true':'false'}`,{method:'POST'});
+  await refreshStatus();
+}
+async function honeytoken(){
+  const el=document.getElementById('tripwire-msg'); el.textContent='Sending honeytoken…';
+  const j=await fetch('/api/honeytoken',{method:'POST'}).then(r=>r.json());
+  el.textContent='Honeytoken result: matched='+(j.matched===true);
+  refreshStatus(); refreshLogs();
+}
+async function egressAllowed(){
+  const el=document.getElementById('tripwire-msg'); el.textContent='Calling allowed domain…';
+  const j=await fetch('/api/egress/allowed',{method:'POST'}).then(r=>r.json());
+  el.textContent='Allowed status: '+j.status;
+  refreshLogs();
+}
+async function egressForbidden(){
+  const el=document.getElementById('tripwire-msg'); el.textContent='Calling forbidden domain…';
+  const j=await fetch('/api/egress/forbidden',{method:'POST'}).then(r=>r.json());
+  el.textContent='Forbidden status: '+j.status+' (inhibit should flip)';
+  refreshStatus(); refreshLogs();
+}
+async function refreshStatus(){
+  try{
+    const s=await jget('/api/status');
+    const wrap=document.getElementById('status-line');
+    const hb = s.heartbeat_ages_sec?.guarded_ai;
+    const pill = (ok,text)=>`<span class="pill ${ok?'ok':'bad'}">${text}</span>`;
+    wrap.innerHTML = [
+      pill(!s.inhibit, 'inhibit: '+s.inhibit),
+      hb!=null ? `<span class="pill">${'heartbeat age: '+hb.toFixed(2)+'s'}</span>` : `<span class="pill muted">no heartbeat</span>`
+    ].join(' ');
+  }catch(e){
+    document.getElementById('status-line').innerHTML = `<span class="pill bad">controller offline</span>`;
+  }
+}
+async function refreshLogs(){
+  const t=await fetch('/api/logs').then(r=>r.text()).catch(()=> 'unable to fetch logs');
+  const el=document.getElementById('logs'); el.textContent=t;
+  el.scrollTop = el.scrollHeight;
+}
+setInterval(refreshStatus, 1000);
+setInterval(refreshLogs, 2000);
+refreshStatus(); refreshLogs();
+</script>
+</body>
+</html>
