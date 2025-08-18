@@ -3,7 +3,7 @@
 **Mission:** Make advanced AI systems transparent, interpretable, and aligned, ***before it’s too late***.
 
 This repository is the public home of my personal mission to fight for AI safety and transparency.  
-I’m Vilius, a (almost) 17-year-old with a background in cybersecurity, Python, and AI tools who had an existential wake up call about the dangers of uncontrolled, opaque AI systems.
+I’m Vilius, recently turned 17-year-old with a background in cybersecurity, Python, and AI tools who had an existential wake up call about the dangers of uncontrolled, opaque AI systems.
 
 Here you’ll find:
 
