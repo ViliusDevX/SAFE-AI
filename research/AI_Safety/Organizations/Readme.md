@@ -13,7 +13,6 @@ Each link goes directly to the official site, with a short note on their focus.
 - [Conscium](https://conscium.ai/) — UK-based company focusing on agent safety, verification, and neuromorphic approaches.
 - [Machine Intelligence Research Institute (MIRI)](https://intelligence.org/) — Early research org focused on mathematical foundations of alignment.
 - [Anthropic](https://www.anthropic.com/) — AI company with a strong focus on safety, alignment, and constitutional AI methods.
-- [DeepMind – Safety & Alignment](https://deepmind.google/discover/blog/ai-safety/) — Safety research division within DeepMind (now Google DeepMind).
 - [Center for Human-Compatible AI (CHAI)](https://humancompatible.ai/) — UC Berkeley research group led by Stuart Russell, working on value alignment.
 - [Centre for the Governance of AI (GovAI)](https://governance.ai/) — Oxford-based org studying AI governance and policy for global coordination.
 - [Redwood Research](https://www.redwoodresearch.org/) — Independent nonprofit doing applied alignment research and interpretability work.
